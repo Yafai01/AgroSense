@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>AgroSense – Smart Farming Made Easy</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --g1:#0d3d1e;--g2:#1a6b35;--g3:#2e9c52;--g4:#4cc97a;--g5:#a8f0c0;--g6:#e3faea;
+  --y1:#c97c00;--y2:#f0a500;--y3:#ffd166;
+  --d1:#07120c;--d2:#111f16;--d3:#1c2e22;
+  --text:#e8f5ec;--text2:#a0c8a8;--text3:#5c8a66;
+  --card:#132218;--card2:#1a2e20;--border:#2a4a30;
+  --radius:12px;--radius-lg:20px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--d1);color:var(--text);min-height:100vh;overflow-x:hidden}
+h1,h2,h3,h4,h5{font-family:'Syne',sans-serif}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(7,18,12,0.85);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);padding:0 2rem;height:64px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Syne',sans-serif;font-weight:800;font-size:1.3rem;color:var(--g4);letter-spacing:-0.5px;cursor:pointer}
+.nav-logo span{color:var(--text)}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{color:var(--text2);text-decoration:none;font-size:0.9rem;font-weight:500;cursor:pointer;transition:color 0.2s}
+.nav-links a:hover,.nav-links a.active{color:var(--g4)}
+.nav-cta{background:var(--g3);color:#fff;border:none;padding:0.5rem 1.25rem;border-radius:8px;font-family:'Syne',sans-serif;font-weight:600;font-size:0.85rem;cursor:pointer;transition:background 0.2s}
+.nav-cta:hover{background:var(--g4);color:var(--d1)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{width:22px;height:2px;background:var(--text);border-radius:2px;transition:0.3s}
+.mobile-menu{display:none;position:fixed;top:64px;left:0;right:0;background:var(--d2);border-bottom:1px solid var(--border);padding:1rem 2rem;z-index:998;flex-direction:column;gap:1rem}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:var(--text2);text-decoration:none;font-size:1rem;font-weight:500;padding:0.5rem 0;border-bottom:1px solid var(--border);cursor:pointer}
+
+/* BUTTONS */
+.btn-primary{background:linear-gradient(135deg,var(--g3),var(--g4));color:var(--d1);border:none;padding:0.85rem 2rem;border-radius:10px;font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;cursor:pointer;transition:transform 0.2s,box-shadow 0.2s;letter-spacing:0.3px}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(46,156,82,0.35)}
+.btn-outline{background:transparent;color:var(--g4);border:1.5px solid var(--g3);padding:0.85rem 2rem;border-radius:10px;font-family:'Syne',sans-serif;font-weight:600;font-size:0.95rem;cursor:pointer;transition:all 0.2s}
+.btn-outline:hover{background:var(--g3);color:#fff}
+.btn-sm{padding:0.5rem 1.2rem;font-size:0.82rem;border-radius:8px}
+
+/* SECTIONS */
+section{padding:5rem 2rem}
+.container{max-width:1140px;margin:0 auto}
+.section-tag{display:inline-block;background:rgba(46,156,82,0.15);color:var(--g4);border:1px solid rgba(76,201,122,0.3);padding:0.3rem 1rem;border-radius:100px;font-size:0.78rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:1rem}
+.section-title{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;line-height:1.15;color:var(--text);margin-bottom:1rem}
+.section-title span{color:var(--g4)}
+.section-subtitle{font-size:1rem;color:var(--text2);line-height:1.7;max-width:580px}
+.text-center{text-align:center}
+.text-center .section-subtitle{margin:0 auto}
+
+/* HERO */
+#hero{min-height:100vh;display:flex;align-items:center;padding-top:80px;position:relative;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 60% 40%,rgba(46,156,82,0.12) 0%,transparent 70%),radial-gradient(ellipse 40% 40% at 20% 80%,rgba(76,201,122,0.06) 0%,transparent 60%);pointer-events:none}
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-tag{display:inline-flex;align-items:center;gap:0.5rem;background:rgba(76,201,122,0.1);border:1px solid rgba(76,201,122,0.25);padding:0.4rem 1rem;border-radius:100px;font-size:0.8rem;color:var(--g4);font-weight:500;margin-bottom:1.5rem}
+.hero-tag-dot{width:6px;height:6px;background:var(--g4);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.hero-title{font-size:clamp(2.5rem,5vw,4.2rem);font-weight:800;line-height:1.05;letter-spacing:-1px;margin-bottom:1.5rem}
+.hero-title .accent{color:var(--g4)}
+.hero-title .line2{color:var(--text2)}
+.hero-desc{font-size:1.05rem;color:var(--text2);line-height:1.75;margin-bottom:2rem;max-width:480px}
+.hero-btns{display:flex;gap:1rem;flex-wrap:wrap}
+.hero-stats{display:flex;gap:2rem;margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.hero-stat-num{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--g4)}
+.hero-stat-label{font-size:0.8rem;color:var(--text3);margin-top:2px}
+.hero-visual{position:relative}
+.hero-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-bottom:1rem;transition:transform 0.3s}
+.hero-card:hover{transform:translateY(-3px)}
+.hero-card-header{display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem}
+.hero-card-icon{width:40px;height:40px;background:rgba(46,156,82,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.hero-card-title{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700}
+.hero-card-sub{font-size:0.75rem;color:var(--text3)}
+.sensor-row{display:flex;justify-content:space-between;align-items:center;padding:0.5rem 0;border-bottom:1px solid var(--border)}
+.sensor-row:last-child{border-bottom:none}
+.sensor-label{font-size:0.8rem;color:var(--text2)}
+.sensor-val{font-family:'Syne',sans-serif;font-size:0.95rem;font-weight:700;color:var(--g4)}
+.sensor-bar-wrap{width:80px;height:5px;background:rgba(255,255,255,0.08);border-radius:10px;overflow:hidden}
+.sensor-bar{height:100%;background:linear-gradient(90deg,var(--g3),var(--g4));border-radius:10px;transition:width 1s}
+.floating-badge{position:absolute;background:var(--g3);color:#fff;padding:0.5rem 1rem;border-radius:100px;font-size:0.78rem;font-weight:700;font-family:'Syne',sans-serif;white-space:nowrap}
+.float1{top:-10px;right:20px;animation:float1 3s ease-in-out infinite}
+.float2{bottom:20px;left:-10px;animation:float1 3s ease-in-out infinite 1.5s;background:var(--y1)}
+@keyframes float1{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+/* MODEL SECTION */
+#model{background:var(--d2)}
+.model-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.model-visual{display:flex;flex-direction:column;gap:1px;position:relative}
+.model-bar{display:flex;align-items:center;border-radius:var(--radius);overflow:hidden;height:64px}
+.model-bar-farmer{background:linear-gradient(135deg,#1a6b35,#2e9c52);flex:0.6;display:flex;align-items:center;justify-content:center;gap:0.5rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;color:#fff;padding:0 1rem}
+.model-bar-company{background:linear-gradient(135deg,#c97c00,#f0a500);flex:0.4;display:flex;align-items:center;justify-content:center;gap:0.5rem;font-family:'Syne',sans-serif;font-weight:700;font-size:0.95rem;color:var(--d1);padding:0 1rem}
+.model-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;margin-top:1.5rem}
+.model-item{display:flex;gap:1rem;padding:0.9rem 0;border-bottom:1px solid var(--border)}
+.model-item:last-child{border-bottom:none;padding-bottom:0}
+.model-icon{width:36px;height:36px;background:rgba(46,156,82,0.15);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0}
+.model-item-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;margin-bottom:2px}
+.model-item-desc{font-size:0.8rem;color:var(--text2);line-height:1.5}
+.bar-label{display:flex;justify-content:space-between;margin-bottom:0.5rem;font-size:0.8rem;color:var(--text2)}
+
+/* STEPS */
+#steps{background:var(--d1)}
+.steps-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1.5rem;position:relative;margin-top:3rem}
+.step-connector{position:absolute;top:28px;left:10%;right:10%;height:1px;background:linear-gradient(90deg,var(--g3),var(--g4));z-index:0}
+.step-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem 1.25rem;text-align:center;position:relative;z-index:1;transition:all 0.3s;cursor:default}
+.step-card:hover{border-color:var(--g3);transform:translateY(-4px);box-shadow:0 12px 32px rgba(46,156,82,0.15)}
+.step-num{width:48px;height:48px;background:linear-gradient(135deg,var(--g2),var(--g3));border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#fff;margin:0 auto 1rem;box-shadow:0 4px 16px rgba(46,156,82,0.35)}
+.step-icon{font-size:1.4rem;margin-bottom:0.5rem}
+.step-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;color:var(--text);margin-bottom:0.4rem}
+.step-desc{font-size:0.78rem;color:var(--text2);line-height:1.5}
+
+/* PRODUCTS */
+#products{background:var(--d2)}
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem;margin-top:2rem}
+.product-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all 0.3s;cursor:default}
+.product-card:hover{border-color:var(--g3);transform:translateY(-4px);box-shadow:0 16px 40px rgba(0,0,0,0.3)}
+.product-img{height:160px;display:flex;align-items:center;justify-content:center;font-size:4rem;background:linear-gradient(135deg,var(--d3),var(--card2));position:relative}
+.product-badge{position:absolute;top:12px;right:12px;background:rgba(46,156,82,0.9);color:#fff;font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:100px;font-family:'Syne',sans-serif}
+.product-body{padding:1.25rem}
+.product-name{font-family:'Syne',sans-serif;font-weight:800;font-size:1.05rem;margin-bottom:0.25rem}
+.product-tagline{font-size:0.82rem;color:var(--g4);font-weight:500;margin-bottom:0.75rem}
+.product-desc{font-size:0.82rem;color:var(--text2);line-height:1.6;margin-bottom:1rem}
+.product-features{list-style:none;display:flex;flex-direction:column;gap:0.3rem;margin-bottom:1rem}
+.product-features li{font-size:0.78rem;color:var(--text2);display:flex;align-items:center;gap:0.4rem}
+.product-features li::before{content:'';width:5px;height:5px;background:var(--g4);border-radius:50%;flex-shrink:0}
+.product-footer{display:flex;align-items:center;justify-content:space-between;padding-top:1rem;border-top:1px solid var(--border)}
+.product-price{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;color:var(--text)}
+.product-price span{font-size:0.75rem;color:var(--text3);font-family:'DM Sans',sans-serif;font-weight:400}
+
+/* SERVICES */
+#services{background:var(--d1)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;margin-top:2rem}
+.service-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;transition:all 0.3s}
+.service-card:hover{border-color:var(--g3);transform:translateY(-3px)}
+.service-icon-wrap{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1.25rem}
+.service-icon-wrap.green{background:rgba(46,156,82,0.15)}
+.service-icon-wrap.amber{background:rgba(201,124,0,0.15)}
+.service-icon-wrap.blue{background:rgba(24,95,165,0.15)}
+.service-icon-wrap.teal{background:rgba(15,110,86,0.12)}
+.service-title{font-family:'Syne',sans-serif;font-weight:700;font-size:1rem;margin-bottom:0.5rem}
+.service-desc{font-size:0.85rem;color:var(--text2);line-height:1.65}
+.service-tag{display:inline-block;margin-top:1rem;background:rgba(76,201,122,0.1);color:var(--g4);font-size:0.72rem;font-weight:600;padding:3px 10px;border-radius:100px}
+
+/* BENEFITS */
+#benefits{background:var(--d2)}
+.benefits-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1.5rem;margin-top:2rem}
+.benefit-item{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;transition:border-color 0.2s}
+.benefit-item:hover{border-color:var(--g3)}
+.benefit-icon{font-size:1.5rem;width:44px;flex-shrink:0}
+.benefit-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;margin-bottom:0.35rem}
+.benefit-desc{font-size:0.8rem;color:var(--text2);line-height:1.55}
+
+/* TESTIMONIALS */
+#testimonials{background:var(--d1)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2rem}
+.testi-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;position:relative;transition:all 0.3s}
+.testi-card:hover{border-color:var(--g3);transform:translateY(-3px)}
+.testi-quote{font-size:2rem;color:var(--g3);line-height:1;margin-bottom:0.75rem;font-family:'Syne',sans-serif}
+.testi-text{font-size:0.875rem;color:var(--text2);line-height:1.7;margin-bottom:1.25rem;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:0.75rem}
+.testi-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--g2),var(--g3));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:0.9rem;color:#fff}
+.testi-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.875rem}
+.testi-location{font-size:0.75rem;color:var(--text3)}
+.testi-stars{color:var(--y3);font-size:0.85rem;margin-bottom:0.25rem}
+
+/* DASHBOARD */
+#dashboard{background:var(--d2)}
+.dash-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:gap;gap:1rem}
+.dash-search-wrap{position:relative;flex:1;max-width:340px}
+.dash-search{width:100%;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:0.6rem 1rem 0.6rem 2.5rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s}
+.dash-search:focus{border-color:var(--g3)}
+.dash-search-icon{position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);color:var(--text3);font-size:0.9rem;pointer-events:none}
+.dash-filters{display:flex;gap:0.75rem;flex-wrap:wrap}
+.filter-btn{background:var(--card);border:1px solid var(--border);color:var(--text2);padding:0.5rem 1rem;border-radius:8px;font-size:0.8rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+.filter-btn:hover,.filter-btn.active{background:rgba(46,156,82,0.15);border-color:var(--g3);color:var(--g4)}
+.dash-table-wrap{overflow-x:auto;border-radius:var(--radius-lg);border:1px solid var(--border)}
+.dash-table{width:100%;border-collapse:collapse;font-size:0.85rem}
+.dash-table th{background:var(--card2);color:var(--text3);font-family:'Syne',sans-serif;font-weight:600;font-size:0.75rem;text-transform:uppercase;letter-spacing:0.5px;padding:0.85rem 1.25rem;text-align:left;white-space:nowrap}
+.dash-table td{padding:0.85rem 1.25rem;border-top:1px solid var(--border);color:var(--text);vertical-align:middle}
+.dash-table tr:hover td{background:rgba(255,255,255,0.02)}
+.status-badge{display:inline-flex;align-items:center;gap:0.35rem;padding:3px 10px;border-radius:100px;font-size:0.72rem;font-weight:700;font-family:'Syne',sans-serif}
+.status-badge.installed{background:rgba(46,156,82,0.15);color:var(--g4)}
+.status-badge.pending{background:rgba(201,124,0,0.15);color:var(--y2)}
+.status-badge.scheduled{background:rgba(24,95,165,0.12);color:#5ba3e0}
+.status-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+.dash-footer{display:flex;justify-content:space-between;align-items:center;margin-top:1rem;flex-wrap:wrap;gap:0.5rem}
+.dash-count{font-size:0.8rem;color:var(--text3)}
+.dash-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.5rem}
+.dash-stat{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
+.dash-stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;color:var(--g4)}
+.dash-stat-label{font-size:0.75rem;color:var(--text3);margin-top:2px}
+
+/* CONTACT */
+#contact{background:var(--d1)}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:4rem;margin-top:3rem;align-items:start}
+.contact-info{display:flex;flex-direction:column;gap:1.5rem}
+.contact-item{display:flex;gap:1rem;align-items:flex-start}
+.contact-icon-wrap{width:44px;height:44px;background:rgba(46,156,82,0.15);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.contact-item-title{font-family:'Syne',sans-serif;font-weight:700;font-size:0.9rem;margin-bottom:2px}
+.contact-item-val{font-size:0.85rem;color:var(--text2)}
+.contact-map{border-radius:var(--radius-lg);overflow:hidden;border:1px solid var(--border);height:220px;margin-top:1.5rem;background:var(--card);display:flex;align-items:center;justify-content:center;color:var(--text3);font-size:0.85rem}
+.contact-form{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem}
+.form-group{margin-bottom:1.25rem}
+.form-label{display:block;font-size:0.82rem;font-weight:600;color:var(--text2);margin-bottom:0.4rem;font-family:'Syne',sans-serif}
+.form-input,.form-textarea{width:100%;background:var(--d2);border:1px solid var(--border);border-radius:10px;padding:0.75rem 1rem;color:var(--text);font-family:'DM Sans',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s;resize:none}
+.form-input:focus,.form-textarea:focus{border-color:var(--g3)}
+.form-textarea{height:110px}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.form-success{background:rgba(46,156,82,0.15);border:1px solid rgba(46,156,82,0.3);border-radius:10px;padding:1rem;text-align:center;font-size:0.875rem;color:var(--g4);display:none}
+.form-success.visible{display:block}
+
+/* ABOUT */
+#about{background:var(--d1)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.about-visual{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.about-stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;text-align:center}
+.about-stat-num{font-family:'Syne',sans-serif;font-weight:800;font-size:2rem;color:var(--g4)}
+.about-stat-label{font-size:0.8rem;color:var(--text2);margin-top:4px}
+.about-team{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2rem}
+.team-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;text-align:center;transition:border-color 0.2s}
+.team-card:hover{border-color:var(--g3)}
+.team-avatar{width:56px;height:56px;border-radius:50%;margin:0 auto 0.75rem;display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:1.1rem;color:#fff}
+.team-name{font-family:'Syne',sans-serif;font-weight:700;font-size:0.875rem}
+.team-role{font-size:0.75rem;color:var(--text3);margin-top:2px}
+
+/* FOOTER */
+footer{background:var(--d2);border-top:1px solid var(--border);padding:3rem 2rem 1.5rem}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem;margin-bottom:2rem}
+.footer-brand{font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;color:var(--g4);margin-bottom:0.75rem}
+.footer-desc{font-size:0.82rem;color:var(--text2);line-height:1.65}
+.footer-heading{font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem;color:var(--text);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.5px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:0.45rem}
+.footer-links a{font-size:0.82rem;color:var(--text2);text-decoration:none;cursor:pointer;transition:color 0.2s}
+.footer-links a:hover{color:var(--g4)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:1.5rem;border-top:1px solid var(--border);flex-wrap:wrap;gap:0.5rem}
+.footer-copy{font-size:0.78rem;color:var(--text3)}
+
+/* PAGE TOGGLE */
+.page{display:none}
+.page.active{display:block}
+
+/* ABOUT MISSION */
+.mission-points{display:flex;flex-direction:column;gap:1rem;margin-top:1.5rem}
+.mission-point{display:flex;gap:1rem;align-items:flex-start;padding:1rem;background:var(--card);border:1px solid var(--border);border-radius:var(--radius);transition:border-color 0.2s}
+.mission-point:hover{border-color:var(--g3)}
+.mission-num{font-family:'Syne',sans-serif;font-weight:800;font-size:1.4rem;color:var(--g4);width:36px;flex-shrink:0}
+
+/* CTA BAND */
+.cta-band{background:linear-gradient(135deg,var(--g1),var(--d3));border:1px solid var(--border);border-radius:var(--radius-lg);padding:3rem;text-align:center;margin:2rem 0}
+.cta-band .section-title{margin-bottom:0.75rem}
+.cta-band p{color:var(--text2);margin-bottom:1.75rem;font-size:0.95rem}
+.cta-btns{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-grid,.model-grid,.about-grid,.contact-grid{grid-template-columns:1fr}
+  .steps-grid{grid-template-columns:repeat(2,1fr)}
+  .step-connector{display:none}
+  .testi-grid,.benefits-grid{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .dash-stats{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  nav{padding:0 1rem}
+  .nav-links,.nav-cta{display:none}
+  .hamburger{display:flex}
+  section{padding:3.5rem 1rem}
+  .steps-grid{grid-template-columns:1fr}
+  .testi-grid,.benefits-grid,.about-visual{grid-template-columns:1fr}
+  .about-team{grid-template-columns:1fr 1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .hero-title{font-size:2.2rem}
+  .hero-stats{gap:1rem}
+  .dash-stats{grid-template-columns:1fr 1fr}
+  .form-row{grid-template-columns:1fr}
+  .contact-grid{grid-template-columns:1fr}
+  .products-grid,.services-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">Agro<span>Sense</span></div>
+  <ul class="nav-links">
+    <li><a onclick="showPage('home')" class="active" id="nav-home">Home</a></li>
+    <li><a onclick="showPage('about')" id="nav-about">About</a></li>
+    <li><a onclick="showPage('services')" id="nav-services">Services</a></li>
+    <li><a onclick="showPage('products')" id="nav-products">Products</a></li>
+    <li><a onclick="showPage('dashboard')" id="nav-dashboard">Dashboard</a></li>
+    <li><a onclick="showPage('contact')" id="nav-contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta" onclick="showPage('contact')">Get Started</button>
+  <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="showPage('home');closeMenu()">Home</a>
+  <a onclick="showPage('about');closeMenu()">About Us</a>
+  <a onclick="showPage('services');closeMenu()">Services</a>
+  <a onclick="showPage('products');closeMenu()">Products</a>
+  <a onclick="showPage('dashboard');closeMenu()">Dashboard</a>
+  <a onclick="showPage('contact');closeMenu()">Contact</a>
+</div>
+
+<!-- ===== HOME PAGE ===== -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="container">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-tag"><span class="hero-tag-dot"></span> Smart Agri-Tech Platform</div>
+          <h1 class="hero-title">
+            Smart Farming<br><span class="accent">Made Easy</span><br>
+            <span class="line2">For Every Farmer</span>
+          </h1>
+          <p class="hero-desc">Deploy IoT sensors across your farmland. Monitor soil, climate and crop health in real-time. You pay only 60% — we invest the rest and stand by you for a full year.</p>
+          <div class="hero-btns">
+            <button class="btn-primary" onclick="showPage('contact')">Get Started Today</button>
+            <button class="btn-outline" onclick="showPage('products')">View Products</button>
+          </div>
+          <div class="hero-stats">
+            <div><div class="hero-stat-num">2,400+</div><div class="hero-stat-label">Farmers Served</div></div>
+            <div><div class="hero-stat-num">18</div><div class="hero-stat-label">Districts Covered</div></div>
+            <div><div class="hero-stat-num">98%</div><div class="hero-stat-label">Support Satisfaction</div></div>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="floating-badge float1">🌱 Live Monitoring Active</div>
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <div class="hero-card-icon">📡</div>
+              <div>
+                <div class="hero-card-title">Field Sensor — Block A</div>
+                <div class="hero-card-sub">Kurnool District · Updated 2 min ago</div>
+              </div>
+            </div>
+            <div class="sensor-row"><span class="sensor-label">Soil Moisture</span><div class="sensor-bar-wrap"><div class="sensor-bar" style="width:72%"></div></div><span class="sensor-val">72%</span></div>
+            <div class="sensor-row"><span class="sensor-label">Temperature</span><div class="sensor-bar-wrap"><div class="sensor-bar" style="width:60%;background:linear-gradient(90deg,#c97c00,#f0a500)"></div></div><span class="sensor-val" style="color:var(--y2)">34°C</span></div>
+            <div class="sensor-row"><span class="sensor-label">Humidity</span><div class="sensor-bar-wrap"><div class="sensor-bar" style="width:58%"></div></div><span class="sensor-val">58%</span></div>
+            <div class="sensor-row"><span class="sensor-label">pH Level</span><div class="sensor-bar-wrap"><div class="sensor-bar" style="width:50%"></div></div><span class="sensor-val">6.5</span></div>
+          </div>
+          <div class="hero-card" style="display:flex;gap:1rem;align-items:center;padding:1.25rem">
+            <div style="font-size:2rem">🔔</div>
+            <div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem">Alert: Irrigation Recommended</div>
+              <div style="font-size:0.75rem;color:var(--text2)">Soil moisture below 40% in Block C — auto-alert sent</div>
+            </div>
+            <div style="background:rgba(76,201,122,0.15);color:var(--g4);font-size:0.7rem;font-weight:700;padding:3px 8px;border-radius:100px;white-space:nowrap;font-family:'Syne',sans-serif">LIVE</div>
+          </div>
+          <div class="floating-badge float2">💰 You Pay Only 60%</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODEL SECTION -->
+  <section id="model">
+    <div class="container">
+      <div class="model-grid">
+        <div>
+          <div class="section-tag">Our Model</div>
+          <h2 class="section-title">A Partnership That <span>Works for You</span></h2>
+          <p class="section-subtitle" style="margin-bottom:2rem">We believe every farmer deserves smart technology. So we share the cost — you pay 60%, we invest the remaining 40%.</p>
+          <div class="model-card">
+            <div class="model-item">
+              <div class="model-icon">👨‍🌾</div>
+              <div><div class="model-item-title">Farmer Pays 60%</div><div class="model-item-desc">Lower upfront investment with maximum value returns through better yields and savings.</div></div>
+            </div>
+            <div class="model-item">
+              <div class="model-icon">🏢</div>
+              <div><div class="model-item-title">AgroSense Invests 40%</div><div class="model-item-desc">We co-invest because we believe in your farm's success. Shared risk, shared growth.</div></div>
+            </div>
+            <div class="model-item">
+              <div class="model-icon">🛠️</div>
+              <div><div class="model-item-title">1-Year Free Support</div><div class="model-item-desc">Complete service coverage for 12 months. On-field visits, app support, and hardware maintenance.</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="model-visual">
+          <div class="bar-label"><span>Your Investment</span><span>AgroSense Investment</span></div>
+          <div class="model-bar">
+            <div class="model-bar-farmer">👨‍🌾 60% Farmer</div>
+            <div class="model-bar-company">🏢 40% Us</div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1.5rem">
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center">
+              <div style="font-size:1.8rem;margin-bottom:0.5rem">📱</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem">Free App Setup</div>
+              <div style="font-size:0.75rem;color:var(--text2);margin-top:4px">Personal training included</div>
+            </div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center">
+              <div style="font-size:1.8rem;margin-bottom:0.5rem">🚗</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem">On-Field Visits</div>
+              <div style="font-size:0.75rem;color:var(--text2);margin-top:4px">Technician comes to you</div>
+            </div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center">
+              <div style="font-size:1.8rem;margin-bottom:0.5rem">📞</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem">24/7 Support</div>
+              <div style="font-size:0.75rem;color:var(--text2);margin-top:4px">Call anytime, we're here</div>
+            </div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.25rem;text-align:center">
+              <div style="font-size:1.8rem;margin-bottom:0.5rem">📊</div>
+              <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:0.85rem">Real-Time Data</div>
+              <div style="font-size:0.75rem;color:var(--text2);margin-top:4px">Monitor your farm 24/7</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STEPS -->
+  <section id="steps">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:1rem">
+        <div class="section-tag">How It Works</div>
+        <h2 class="section-title">From Purchase to <span>Harvest Success</span></h2>
+        <p class="section-subtitle" style="margin:0 auto">Five simple steps to transform your farm with smart IoT technology.</p>
+      </div>
+      <div class="steps-grid">
+        <div class="step-connector"></div>
+        <div class="step-card">
+          <div class="step-num">1</div>
+          <div class="step-icon">🛒</div>
+          <div class="step-title">Purchase</div>
+          <p class="step-desc">Choose your sensors. Pay just 60% of the hardware cost. We handle the rest.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">2</div>
+          <div class="step-icon">🔧</div>
+          <div class="step-title">Installation</div>
+          <p class="step-desc">Our certified team visits your farm and professionally installs all sensors.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">3</div>
+          <div class="step-icon">📱</div>
+          <div class="step-title">App Setup</div>
+          <p class="step-desc">We help you download and learn the mobile app — step by step, in your language.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">4</div>
+          <div class="step-icon">📊</div>
+          <div class="step-title">Monitoring</div>
+          <p class="step-desc">Watch your soil, water, weather and crop health data live from your phone.</p>
+        </div>
+        <div class="step-card">
+          <div class="step-num">5</div>
+          <div class="step-icon">🛡️</div>
+          <div class="step-title">Support</div>
+          <p class="step-desc">1-year free service. Any issue — call us and a technician will arrive on-site.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section id="benefits">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:1rem">
+        <div class="section-tag">Why Choose Us</div>
+        <h2 class="section-title">Built for <span>Indian Farmers</span></h2>
+      </div>
+      <div class="benefits-grid">
+        <div class="benefit-item"><div class="benefit-icon">💧</div><div><div class="benefit-title">Save Water & Resources</div><div class="benefit-desc">Precision irrigation reduces water waste by up to 40% using real-time soil data.</div></div></div>
+        <div class="benefit-item"><div class="benefit-icon">📈</div><div><div class="benefit-title">Increase Yield</div><div class="benefit-desc">Data-driven farming decisions help increase crop yield by 20–35% on average.</div></div></div>
+        <div class="benefit-item"><div class="benefit-icon">🌡️</div><div><div class="benefit-title">Early Warning System</div><div class="benefit-desc">Get alerts before crop stress, disease, or weather damage impacts your harvest.</div></div></div>
+        <div class="benefit-item"><div class="benefit-icon">💸</div><div><div class="benefit-title">Affordable Entry</div><div class="benefit-desc">You pay only 60% upfront. We co-invest in your farm's future — no hidden charges.</div></div></div>
+        <div class="benefit-item"><div class="benefit-icon">🗣️</div><div><div class="benefit-title">Local Language Support</div><div class="benefit-desc">App and support available in Telugu, Hindi, Kannada, Tamil and more regional languages.</div></div></div>
+        <div class="benefit-item"><div class="benefit-icon">🏅</div><div><div class="benefit-title">Certified Hardware</div><div class="benefit-desc">All sensors are IP67-rated, weatherproof, and rigorously tested for Indian field conditions.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:0.5rem">
+        <div class="section-tag">Testimonials</div>
+        <h2 class="section-title">Farmers <span>Love AgroSense</span></h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">"</div>
+          <p class="testi-text">The soil sensor saved my entire groundnut crop. I got an alert at midnight that moisture levels dropped — I irrigated immediately. Best ₹18,000 I ever spent.</p>
+          <div class="testi-author">
+            <div class="testi-avatar">RK</div>
+            <div><div class="testi-name">Ramaiah K.</div><div class="testi-location">Kurnool, Andhra Pradesh</div></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">"</div>
+          <p class="testi-text">Installation was done in one day. The team was very professional. The app is easy to use even for me. My water bill went down 30% this season.</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:linear-gradient(135deg,#185fa5,#378add)">SP</div>
+            <div><div class="testi-name">Sunita Patil</div><div class="testi-location">Solapur, Maharashtra</div></div>
+          </div>
+        </div>
+        <div class="testi-card">
+          <div class="testi-stars">★★★★★</div>
+          <div class="testi-quote">"</div>
+          <p class="testi-text">When my weather station stopped working after heavy rain, the support team came the very next day and replaced it free of charge. Excellent service.</p>
+          <div class="testi-author">
+            <div class="testi-avatar" style="background:linear-gradient(135deg,#854f0b,#ef9f27)">MR</div>
+            <div><div class="testi-name">Murugesan R.</div><div class="testi-location">Coimbatore, Tamil Nadu</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA BAND -->
+  <section style="padding:3rem 2rem">
+    <div class="container">
+      <div class="cta-band">
+        <div class="section-tag" style="display:inline-block">Limited Slots Available</div>
+        <h2 class="section-title">Ready to Transform <span>Your Farm?</span></h2>
+        <p>Join 2,400+ farmers across 18 districts who are growing smarter with AgroSense.</p>
+        <div class="cta-btns">
+          <button class="btn-primary" onclick="showPage('contact')">Get a Free Demo</button>
+          <button class="btn-outline" onclick="showPage('products')">Explore Products</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== ABOUT PAGE ===== -->
+<div class="page" id="page-about">
+  <section style="padding-top:7rem" id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div>
+          <div class="section-tag">About AgroSense</div>
+          <h2 class="section-title">Empowering Farmers with <span>Technology</span></h2>
+          <p style="color:var(--text2);line-height:1.75;margin-bottom:1.5rem;font-size:0.95rem">Founded in 2022, AgroSense is an agri-tech startup headquartered in Hyderabad, dedicated to making precision farming accessible to every Indian farmer — regardless of land size or budget.</p>
+          <p style="color:var(--text2);line-height:1.75;font-size:0.95rem">Our unique co-investment model removes the financial barrier to smart farming. We don't just sell hardware — we become partners in your agricultural success.</p>
+          <div class="mission-points">
+            <div class="mission-point"><div class="mission-num">01</div><div><div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:4px">Our Mission</div><div style="font-size:0.85rem;color:var(--text2)">Make precision agriculture accessible to every Indian farmer through affordable IoT solutions.</div></div></div>
+            <div class="mission-point"><div class="mission-num">02</div><div><div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:4px">Our Vision</div><div style="font-size:0.85rem;color:var(--text2)">A future where data-driven decisions eliminate crop loss and maximize farmer income across India.</div></div></div>
+            <div class="mission-point"><div class="mission-num">03</div><div><div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:4px">Our Values</div><div style="font-size:0.85rem;color:var(--text2)">Partnership, transparency, and relentless support for the backbone of our nation — the farmer.</div></div></div>
+          </div>
+        </div>
+        <div>
+          <div class="about-visual">
+            <div class="about-stat-card"><div class="about-stat-num">2022</div><div class="about-stat-label">Founded in Hyderabad</div></div>
+            <div class="about-stat-card"><div class="about-stat-num">2,400+</div><div class="about-stat-label">Farmers Onboarded</div></div>
+            <div class="about-stat-card"><div class="about-stat-num">18</div><div class="about-stat-label">Districts Active</div></div>
+            <div class="about-stat-card"><div class="about-stat-num">6</div><div class="about-stat-label">Smart Products</div></div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.5rem;margin-top:1rem">
+            <div style="font-family:'Syne',sans-serif;font-weight:700;margin-bottom:1rem">Backed by Experts</div>
+            <div style="display:flex;gap:0.75rem;align-items:center;padding:0.75rem 0;border-bottom:1px solid var(--border)"><div style="font-size:1.2rem">🏛️</div><div><div style="font-size:0.85rem;font-weight:600">ICAR Collaboration</div><div style="font-size:0.75rem;color:var(--text2)">Research partnership with Indian Council of Agricultural Research</div></div></div>
+            <div style="display:flex;gap:0.75rem;align-items:center;padding:0.75rem 0;border-bottom:1px solid var(--border)"><div style="font-size:1.2rem">🌾</div><div><div style="font-size:0.85rem;font-weight:600">Government Certified</div><div style="font-size:0.75rem;color:var(--text2)">Registered under AP & Telangana Agri-Tech policy framework</div></div></div>
+            <div style="display:flex;gap:0.75rem;align-items:center;padding:0.75rem 0"><div style="font-size:1.2rem">💡</div><div><div style="font-size:0.85rem;font-weight:600">NASSCOM Startup</div><div style="font-size:0.75rem;color:var(--text2)">Recognized by NASSCOM as a top agri-tech innovator 2024</div></div></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:3rem">
+        <h3 style="font-family:'Syne',sans-serif;font-weight:700;font-size:1.2rem;margin-bottom:1.5rem">Meet the Team</h3>
+        <div class="about-team">
+          <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,var(--g2),var(--g3))">AK</div><div class="team-name">Arjun Kumar</div><div class="team-role">CEO & Co-Founder</div></div>
+          <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,#185fa5,#378add)">PR</div><div class="team-name">Priya Reddy</div><div class="team-role">CTO</div></div>
+          <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,#854f0b,#ef9f27)">VS</div><div class="team-name">Venkat Sharma</div><div class="team-role">Head of Operations</div></div>
+          <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,#993556,#d4537e)">DM</div><div class="team-name">Deepika M.</div><div class="team-role">Product Lead</div></div>
+          <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,#3c3489,#7f77dd)">RB</div><div class="team-name">Ravi Bhandari</div><div class="team-role">Field Operations</div></div>
+          <div class="team-card"><div class="team-avatar" style="background:linear-gradient(135deg,#0f6e56,#1d9e75)">NP</div><div class="team-name">Nandini Pillai</div><div class="team-role">Customer Success</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== SERVICES PAGE ===== -->
+<div class="page" id="page-services">
+  <section style="padding-top:7rem" id="services">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:2rem">
+        <div class="section-tag">Our Services</div>
+        <h2 class="section-title">End-to-End <span>Farm Intelligence</span></h2>
+        <p class="section-subtitle">From installation to ongoing support — we cover everything so you can focus on farming.</p>
+      </div>
+      <div class="services-grid">
+        <div class="service-card">
+          <div class="service-icon-wrap green">🔧</div>
+          <h3 class="service-title">Professional Installation</h3>
+          <p class="service-desc">Our certified field engineers visit your farm and install all sensors and hardware with precision. We ensure optimal placement for maximum data accuracy.</p>
+          <div class="service-tag">Free with Purchase</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap amber">📱</div>
+          <h3 class="service-title">App Training & Setup</h3>
+          <p class="service-desc">We personally help you download, configure, and understand the AgroSense mobile app — in your local language. No tech knowledge required.</p>
+          <div class="service-tag">In-Person Training</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap blue">🛡️</div>
+          <h3 class="service-title">1-Year Free Service</h3>
+          <p class="service-desc">Full hardware and software maintenance coverage for 12 months. Sensor replacements, firmware updates, and calibration — all included at no extra cost.</p>
+          <div class="service-tag">12 Months Coverage</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap teal">🚗</div>
+          <h3 class="service-title">On-Field Technician Visits</h3>
+          <p class="service-desc">If remote support isn't enough, we dispatch a technician to your farm. Physical issues resolved on-site, usually within 24–48 hours of your call.</p>
+          <div class="service-tag">On-Site Support</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap green">📞</div>
+          <h3 class="service-title">24/7 Customer Support</h3>
+          <p class="service-desc">Reach us anytime via phone, WhatsApp or in-app chat. Our multilingual support team speaks Telugu, Hindi, Tamil, Kannada, and Marathi.</p>
+          <div class="service-tag">Always Available</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap amber">📊</div>
+          <h3 class="service-title">Data Analytics Reports</h3>
+          <p class="service-desc">Monthly farm health reports with actionable insights. Compare your field performance season-over-season and make smarter agricultural decisions.</p>
+          <div class="service-tag">Monthly Reports</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap blue">🌦️</div>
+          <h3 class="service-title">Weather Intelligence</h3>
+          <p class="service-desc">Hyper-local weather forecasts and alerts tailored to your GPS coordinates. Get 48-hour advance warning of rain, heatwave, frost and storms.</p>
+          <div class="service-tag">Hyper-Local Alerts</div>
+        </div>
+        <div class="service-card">
+          <div class="service-icon-wrap teal">🌱</div>
+          <h3 class="service-title">Crop Advisory</h3>
+          <p class="service-desc">Based on your sensor data, our agronomy AI suggests the right time to fertilize, irrigate, and harvest — specific to your crop type and soil profile.</p>
+          <div class="service-tag">AI-Powered</div>
+        </div>
+      </div>
+      <div class="cta-band" style="margin-top:3rem">
+        <h3 class="section-title">Need a Custom <span>Service Plan?</span></h3>
+        <p>We work with large farms, cooperatives, and FPOs. Contact us for tailored solutions.</p>
+        <button class="btn-primary" onclick="showPage('contact')">Talk to an Expert</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== PRODUCTS PAGE ===== -->
+<div class="page" id="page-products">
+  <section style="padding-top:7rem" id="products">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:2rem">
+        <div class="section-tag">Hardware Products</div>
+        <h2 class="section-title">Smart Sensors for <span>Every Farm Need</span></h2>
+        <p class="section-subtitle">Precision IoT hardware built for Indian field conditions — rugged, accurate, and affordable.</p>
+      </div>
+      <div class="products-grid">
+        <div class="product-card">
+          <div class="product-img">🌱<div class="product-badge">Best Seller</div></div>
+          <div class="product-body">
+            <div class="product-name">SoilSense Pro</div>
+            <div class="product-tagline">Advanced Soil Intelligence Module</div>
+            <p class="product-desc">Measures soil moisture, temperature, pH, EC, and NPK levels simultaneously. Wireless, solar-powered, and IP67-rated for all weather.</p>
+            <ul class="product-features">
+              <li>5-in-1 soil parameter sensing</li>
+              <li>Solar + rechargeable battery</li>
+              <li>6-month data logging</li>
+              <li>30m wireless range</li>
+              <li>IP67 weatherproof rated</li>
+            </ul>
+            <div class="product-footer">
+              <div class="product-price">₹28,000 <span>/ unit (farmer pays ₹16,800)</span></div>
+              <button class="btn-primary btn-sm" onclick="showPage('contact')">Enquire</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">🌡️</div>
+          <div class="product-body">
+            <div class="product-name">AeroClimate Station</div>
+            <div class="product-tagline">Micro-Weather Monitoring Hub</div>
+            <p class="product-desc">Complete atmospheric monitoring — temperature, humidity, wind speed, rainfall, UV index, and barometric pressure in one rugged unit.</p>
+            <ul class="product-features">
+              <li>7 atmospheric parameters</li>
+              <li>±0.3°C temperature accuracy</li>
+              <li>Automated daily reports</li>
+              <li>Storm & frost alert system</li>
+              <li>GSM + WiFi connectivity</li>
+            </ul>
+            <div class="product-footer">
+              <div class="product-price">₹35,000 <span>/ unit (farmer pays ₹21,000)</span></div>
+              <button class="btn-primary btn-sm" onclick="showPage('contact')">Enquire</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">💧<div class="product-badge">Popular</div></div>
+          <div class="product-body">
+            <div class="product-name">AquaFlow Controller</div>
+            <div class="product-tagline">Smart Irrigation Automation System</div>
+            <p class="product-desc">Automates your drip or sprinkler system based on real-time soil data. Schedule, monitor and control irrigation remotely from your phone.</p>
+            <ul class="product-features">
+              <li>Controls up to 8 irrigation zones</li>
+              <li>Auto-schedule based on soil data</li>
+              <li>Leak detection alerts</li>
+              <li>Water usage analytics</li>
+              <li>Compatible with all pump types</li>
+            </ul>
+            <div class="product-footer">
+              <div class="product-price">₹22,000 <span>/ unit (farmer pays ₹13,200)</span></div>
+              <button class="btn-primary btn-sm" onclick="showPage('contact')">Enquire</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">📡</div>
+          <div class="product-body">
+            <div class="product-name">FieldGateway Hub</div>
+            <div class="product-tagline">Central Data Collection Hub</div>
+            <p class="product-desc">The brain of your sensor network. Connects up to 20 sensors, uploads data to cloud every 15 minutes, and works on 2G/3G/4G/WiFi networks.</p>
+            <ul class="product-features">
+              <li>Connects up to 20 sensors</li>
+              <li>4G LTE + WiFi + LoRa</li>
+              <li>Solar powered with 72hr backup</li>
+              <li>Cloud sync every 15 mins</li>
+              <li>Remote firmware updates</li>
+            </ul>
+            <div class="product-footer">
+              <div class="product-price">₹18,500 <span>/ unit (farmer pays ₹11,100)</span></div>
+              <button class="btn-primary btn-sm" onclick="showPage('contact')">Enquire</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">🌿<div class="product-badge">New</div></div>
+          <div class="product-body">
+            <div class="product-name">LeafGuard Sensor</div>
+            <div class="product-tagline">Crop Disease Early Warning</div>
+            <p class="product-desc">Detects early signs of fungal infection, pest activity, and nutrient deficiency through leaf temperature, canopy humidity, and spectral analysis.</p>
+            <ul class="product-features">
+              <li>Leaf wetness & temperature</li>
+              <li>Disease risk AI model</li>
+              <li>Pest activity alerts</li>
+              <li>Push notification to app</li>
+              <li>Integrates with SoilSense Pro</li>
+            </ul>
+            <div class="product-footer">
+              <div class="product-price">₹15,000 <span>/ unit (farmer pays ₹9,000)</span></div>
+              <button class="btn-primary btn-sm" onclick="showPage('contact')">Enquire</button>
+            </div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-img">🔋</div>
+          <div class="product-body">
+            <div class="product-name">PowerPack Solar Kit</div>
+            <div class="product-tagline">Off-Grid Power Solution for Sensors</div>
+            <p class="product-desc">Dedicated solar power kit for running your entire sensor network off-grid. Includes 20W panel, charge controller, and weatherproof battery enclosure.</p>
+            <ul class="product-features">
+              <li>20W monocrystalline solar panel</li>
+              <li>15Ah lithium battery</li>
+              <li>Powers up to 5 sensors</li>
+              <li>7-day backup in zero sunlight</li>
+              <li>Surge & lightning protection</li>
+            </ul>
+            <div class="product-footer">
+              <div class="product-price">₹12,000 <span>/ unit (farmer pays ₹7,200)</span></div>
+              <button class="btn-primary btn-sm" onclick="showPage('contact')">Enquire</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== DASHBOARD PAGE ===== -->
+<div class="page" id="page-dashboard">
+  <section style="padding-top:7rem">
+    <div class="container">
+      <div style="margin-bottom:2rem">
+        <div class="section-tag">Farmer Management</div>
+        <h2 class="section-title">Farmer <span>Dashboard</span></h2>
+      </div>
+      <div class="dash-stats">
+        <div class="dash-stat"><div class="dash-stat-num" id="stat-total">12</div><div class="dash-stat-label">Total Farmers</div></div>
+        <div class="dash-stat"><div class="dash-stat-num" style="color:var(--g4)" id="stat-installed">8</div><div class="dash-stat-label">Installed</div></div>
+        <div class="dash-stat"><div class="dash-stat-num" style="color:var(--y2)" id="stat-pending">3</div><div class="dash-stat-label">Pending</div></div>
+        <div class="dash-stat"><div class="dash-stat-num" style="color:#5ba3e0" id="stat-scheduled">1</div><div class="dash-stat-label">Scheduled</div></div>
+      </div>
+      <div class="dash-header">
+        <div class="dash-search-wrap">
+          <span class="dash-search-icon">🔍</span>
+          <input type="text" class="dash-search" placeholder="Search farmer, location, product…" id="dashSearch" oninput="filterDash()">
+        </div>
+        <div class="dash-filters">
+          <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+          <button class="filter-btn" onclick="setFilter('Installed',this)">Installed</button>
+          <button class="filter-btn" onclick="setFilter('Pending',this)">Pending</button>
+          <button class="filter-btn" onclick="setFilter('Scheduled',this)">Scheduled</button>
+        </div>
+      </div>
+      <div class="dash-table-wrap">
+        <table class="dash-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Farmer Name</th>
+              <th>Phone</th>
+              <th>Location</th>
+              <th>Product Purchased</th>
+              <th>Install Status</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="dashTableBody"></tbody>
+        </table>
+      </div>
+      <div class="dash-footer">
+        <div class="dash-count" id="dashCount">Showing 12 of 12 farmers</div>
+        <div style="display:flex;gap:0.5rem">
+          <button class="filter-btn" style="padding:0.35rem 0.75rem">← Prev</button>
+          <button class="filter-btn" style="padding:0.35rem 0.75rem;background:rgba(46,156,82,0.15);border-color:var(--g3);color:var(--g4)">1</button>
+          <button class="filter-btn" style="padding:0.35rem 0.75rem">Next →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===== CONTACT PAGE ===== -->
+<div class="page" id="page-contact">
+  <section style="padding-top:7rem" id="contact">
+    <div class="container">
+      <div class="text-center" style="margin-bottom:0.5rem">
+        <div class="section-tag">Contact Us</div>
+        <h2 class="section-title">We're Here to <span>Help You Grow</span></h2>
+        <p class="section-subtitle">Reach out for a free demo, installation enquiry or any support you need.</p>
+      </div>
+      <div class="contact-grid">
+        <div>
+          <div class="contact-info">
+            <div class="contact-item">
+              <div class="contact-icon-wrap">📞</div>
+              <div>
+                <div class="contact-item-title">Customer Care (Toll Free)</div>
+                <div class="contact-item-val" style="font-size:1.1rem;font-family:'Syne',sans-serif;font-weight:700;color:var(--g4)">1800-203-AGRO</div>
+                <div class="contact-item-val">Mon – Sat, 8 AM – 8 PM</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon-wrap">💬</div>
+              <div>
+                <div class="contact-item-title">WhatsApp Support</div>
+                <div class="contact-item-val">+91 98765 43210</div>
+                <div class="contact-item-val">24/7 for emergencies</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon-wrap">📧</div>
+              <div>
+                <div class="contact-item-title">Email</div>
+                <div class="contact-item-val">support@agrosense.in</div>
+                <div class="contact-item-val">Response within 4 hours</div>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-icon-wrap">📍</div>
+              <div>
+                <div class="contact-item-title">Headquarters</div>
+                <div class="contact-item-val">Plot 42, HITEC City Phase 2</div>
+                <div class="contact-item-val">Hyderabad, Telangana – 500081</div>
+              </div>
+            </div>
+          </div>
+          <div class="contact-map">
+            <div style="text-align:center">
+              <div style="font-size:2.5rem;margin-bottom:0.5rem">📍</div>
+              <div style="font-size:0.875rem;font-family:'Syne',sans-serif;font-weight:700">AgroSense HQ</div>
+              <div style="font-size:0.78rem;margin-top:4px">HITEC City, Hyderabad</div>
+              <div style="font-size:0.75rem;color:var(--text3);margin-top:8px">[Google Maps embed would appear here in production]</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="contact-form">
+            <h3 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.2rem;margin-bottom:0.25rem">Send us a Message</h3>
+            <p style="font-size:0.82rem;color:var(--text2);margin-bottom:1.5rem">We'll get back to you within a few hours.</p>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Full Name *</label>
+                <input type="text" class="form-input" placeholder="Your name" id="formName">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone Number *</label>
+                <input type="tel" class="form-input" placeholder="+91 XXXXX XXXXX" id="formPhone">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">District / Location</label>
+              <input type="text" class="form-input" placeholder="e.g. Kurnool, Andhra Pradesh" id="formLocation">
+            </div>
+            <div class="form-group">
+              <label class="form-label">What do you need help with?</label>
+              <select class="form-input" id="formSubject">
+                <option value="">Select a topic</option>
+                <option>Product Enquiry / Demo</option>
+                <option>Installation Request</option>
+                <option>Technical Support</option>
+                <option>App Help</option>
+                <option>Billing / Payment</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Message</label>
+              <textarea class="form-textarea" placeholder="Describe your query or requirement…" id="formMessage"></textarea>
+            </div>
+            <button class="btn-primary" style="width:100%" onclick="submitForm()">Send Message →</button>
+            <div class="form-success" id="formSuccess">✅ Message sent! Our team will contact you within 4 hours.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">AgroSense</div>
+        <p class="footer-desc">Smart farming hardware and IoT solutions for Indian farmers. Co-invest model, 1-year free service, and multilingual support.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Company</div>
+        <ul class="footer-links">
+          <li><a onclick="showPage('home')">Home</a></li>
+          <li><a onclick="showPage('about')">About Us</a></li>
+          <li><a onclick="showPage('services')">Services</a></li>
+          <li><a onclick="showPage('products')">Products</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Support</div>
+        <ul class="footer-links">
+          <li><a onclick="showPage('contact')">Contact Us</a></li>
+          <li><a onclick="showPage('dashboard')">Farmer Portal</a></li>
+          <li><a>FAQs</a></li>
+          <li><a>App Download</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Contact</div>
+        <ul class="footer-links">
+          <li><a>1800-203-AGRO</a></li>
+          <li><a>support@agrosense.in</a></li>
+          <li><a>HITEC City, Hyderabad</a></li>
+          <li><a>Telangana – 500081</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 AgroSense Technologies Pvt. Ltd. All rights reserved.</div>
+      <div class="footer-copy">Made with 🌱 in Hyderabad, India</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const farmers=[
+  {name:"Ramaiah Kumar",phone:"94401 23456",location:"Kurnool, AP",product:"SoilSense Pro",status:"Installed",date:"12 Jan 2025"},
+  {name:"Sunita Patil",phone:"98700 11234",location:"Solapur, MH",product:"AeroClimate Station",status:"Installed",date:"18 Jan 2025"},
+  {name:"Murugesan R.",phone:"93800 44567",location:"Coimbatore, TN",product:"AquaFlow Controller",status:"Installed",date:"25 Jan 2025"},
+  {name:"Lakshmi Devi",phone:"76543 21098",location:"Nellore, AP",product:"SoilSense Pro",status:"Pending",date:"02 Feb 2025"},
+  {name:"Govind Yadav",phone:"99001 87654",location:"Nashik, MH",product:"FieldGateway Hub",status:"Installed",date:"08 Feb 2025"},
+  {name:"Anjali Reddy",phone:"88123 45678",location:"Warangal, TG",product:"LeafGuard Sensor",status:"Scheduled",date:"15 Feb 2025"},
+  {name:"Param Singh",phone:"97765 32109",location:"Ludhiana, PB",product:"SoilSense Pro",status:"Installed",date:"22 Feb 2025"},
+  {name:"Kavitha S.",phone:"94567 89012",location:"Madurai, TN",product:"AquaFlow Controller",status:"Pending",date:"01 Mar 2025"},
+  {name:"Bharat Naidu",phone:"91234 56789",location:"Vizianagaram, AP",product:"SoilSense Pro",status:"Installed",date:"08 Mar 2025"},
+  {name:"Meena Kumari",phone:"78901 23456",location:"Tumkur, KA",product:"AeroClimate Station",status:"Installed",date:"14 Mar 2025"},
+  {name:"Surya Prakash",phone:"98900 12345",location:"Karimnagar, TG",product:"LeafGuard Sensor",status:"Installed",date:"20 Mar 2025"},
+  {name:"Priya Iyer",phone:"87654 09876",location:"Thanjavur, TN",product:"SoilSense Pro",status:"Pending",date:"28 Mar 2025"}
+];
+
+let currentFilter='all';
+let currentSearch='';
+
+function renderTable(){
+  const tbody=document.getElementById('dashTableBody');
+  const q=currentSearch.toLowerCase();
+  const filtered=farmers.filter(f=>{
+    const matchSearch=!q||f.name.toLowerCase().includes(q)||f.location.toLowerCase().includes(q)||f.product.toLowerCase().includes(q)||f.phone.includes(q);
+    const matchFilter=currentFilter==='all'||f.status===currentFilter;
+    return matchSearch&&matchFilter;
+  });
+  tbody.innerHTML=filtered.map((f,i)=>`
+    <tr>
+      <td style="color:var(--text3);font-weight:600">${String(i+1).padStart(2,'0')}</td>
+      <td style="font-weight:600;font-family:'Syne',sans-serif">${f.name}</td>
+      <td style="color:var(--text2);font-size:0.82rem">${f.phone}</td>
+      <td style="color:var(--text2);font-size:0.82rem">${f.location}</td>
+      <td><span style="font-size:0.82rem">${f.product}</span></td>
+      <td><span class="status-badge ${f.status.toLowerCase()}"><span class="status-dot"></span>${f.status}</span></td>
+      <td style="color:var(--text3);font-size:0.78rem">${f.date}</td>
+    </tr>
+  `).join('');
+  document.getElementById('dashCount').textContent=`Showing ${filtered.length} of ${farmers.length} farmers`;
+  document.getElementById('stat-total').textContent=farmers.length;
+  document.getElementById('stat-installed').textContent=farmers.filter(f=>f.status==='Installed').length;
+  document.getElementById('stat-pending').textContent=farmers.filter(f=>f.status==='Pending').length;
+  document.getElementById('stat-scheduled').textContent=farmers.filter(f=>f.status==='Scheduled').length;
+}
+
+function filterDash(){currentSearch=document.getElementById('dashSearch').value;renderTable()}
+function setFilter(f,btn){
+  currentFilter=f;
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderTable();
+}
+renderTable();
+
+function showPage(page){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a=>a.classList.remove('active'));
+  const navEl=document.getElementById('nav-'+page);
+  if(navEl)navEl.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open')}
+
+function submitForm(){
+  const name=document.getElementById('formName').value;
+  const phone=document.getElementById('formPhone').value;
+  if(!name||!phone){alert('Please fill in your name and phone number.');return;}
+  const s=document.getElementById('formSuccess');
+  s.classList.add('visible');
+  document.getElementById('formName').value='';
+  document.getElementById('formPhone').value='';
+  document.getElementById('formLocation').value='';
+  document.getElementById('formMessage').value='';
+  document.getElementById('formSubject').value='';
+  setTimeout(()=>s.classList.remove('visible'),5000);
+}
+
+// Animate sensor bars on load
+setTimeout(()=>{
+  document.querySelectorAll('.sensor-bar').forEach(b=>{
+    const w=b.style.width;b.style.width='0';
+    setTimeout(()=>b.style.width=w,100);
+  });
+},200);
+</script>
+</body>
+</html>
